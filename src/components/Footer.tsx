@@ -25,9 +25,10 @@ export function Footer({ locale }: { locale: Locale }) {
     <footer className="border-t border-neutral-200 bg-white">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="text-lg font-bold">
-            {SITE.name.split(" ")[0]}
-            <span className="text-brand-700"> {SITE.name.split(" ")[1]}</span>
+          <p className="flex items-baseline text-xl font-extrabold tracking-tight">
+            <span className="text-brand-900">{SITE.name.split(" ")[0]}</span>
+            <span className="ms-1 text-brand-600">{SITE.name.split(" ")[1]}</span>
+            <span aria-hidden className="ms-1 inline-block h-1.5 w-1.5 rounded-full bg-gold-400" />
           </p>
           <p className="mt-2 max-w-xs text-sm text-neutral-500">
             {dict.meta.description}

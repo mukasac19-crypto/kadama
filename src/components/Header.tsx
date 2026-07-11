@@ -40,15 +40,14 @@ export async function Header({ locale }: { locale: Locale }) {
       <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4">
         <Link
           href={lp(locale)}
-          className="flex shrink-0 items-center gap-2 text-xl font-bold tracking-tight"
+          className="group flex shrink-0 items-baseline text-2xl font-extrabold tracking-tight"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-700 text-sm font-black text-white">
-            ML
-          </span>
-          <span>
-            {SITE.name.split(" ")[0]}
-            <span className="text-brand-700"> {SITE.name.split(" ")[1]}</span>
-          </span>
+          <span className="text-brand-900">{SITE.name.split(" ")[0]}</span>
+          <span className="ms-1.5 text-brand-600">{SITE.name.split(" ")[1]}</span>
+          <span
+            aria-hidden
+            className="ms-1 inline-block h-2 w-2 rounded-full bg-gold-400 transition-transform group-hover:scale-125"
+          />
         </Link>
 
         {/* Desktop nav */}
