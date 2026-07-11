@@ -51,7 +51,7 @@ export async function upsertMaid(formData: FormData) {
     const { error } = await supabase.from("maids").update(payload).eq("id", id);
     if (error) throw new Error(error.message);
     refresh();
-    redirect(`/admin/maids/${id}`);
+    redirect(`/admin/maids/${id}?saved=1`);
   }
 
   const { data, error } = await supabase
@@ -61,7 +61,7 @@ export async function upsertMaid(formData: FormData) {
     .single();
   if (error) throw new Error(error.message);
   refresh();
-  redirect(`/admin/maids/${data.id}`);
+  redirect(`/admin/maids/${data.id}?created=1`);
 }
 
 export async function setMaidStatus(formData: FormData) {

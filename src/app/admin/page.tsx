@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { STALE_AFTER_DAYS } from "@/lib/config";
 import { daysSince } from "@/lib/format";
 import { confirmAvailability, setMaidStatus } from "./actions";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 
 export default async function AdminDashboard() {
   const supabase = await createClient();
@@ -106,23 +107,35 @@ export default async function AdminDashboard() {
                       <div className="flex flex-wrap gap-2">
                         <form action={confirmAvailability}>
                           <input type="hidden" name="id" value={maid.id} />
-                          <button className="rounded-full bg-brand-700 px-3 py-1 text-xs font-semibold text-white hover:bg-brand-800">
+                          <SubmitButton
+                            pendingLabel="Confirming…"
+                            doneLabel="✓ Confirmed"
+                            className="rounded-full bg-brand-700 px-3 py-1 text-xs font-semibold text-white hover:bg-brand-800"
+                          >
                             Confirmed available
-                          </button>
+                          </SubmitButton>
                         </form>
                         <form action={setMaidStatus}>
                           <input type="hidden" name="id" value={maid.id} />
                           <input type="hidden" name="status" value="reserved" />
-                          <button className="rounded-full border border-amber-400 px-3 py-1 text-xs font-semibold text-amber-600 hover:bg-amber-50">
+                          <SubmitButton
+                            pendingLabel="Updating…"
+                            doneLabel="✓ Reserved"
+                            className="rounded-full border border-amber-400 px-3 py-1 text-xs font-semibold text-amber-600 hover:bg-amber-50"
+                          >
                             Reserved
-                          </button>
+                          </SubmitButton>
                         </form>
                         <form action={setMaidStatus}>
                           <input type="hidden" name="id" value={maid.id} />
                           <input type="hidden" name="status" value="hired" />
-                          <button className="rounded-full border border-neutral-300 px-3 py-1 text-xs font-semibold text-neutral-500 hover:bg-neutral-50">
+                          <SubmitButton
+                            pendingLabel="Updating…"
+                            doneLabel="✓ Hired"
+                            className="rounded-full border border-neutral-300 px-3 py-1 text-xs font-semibold text-neutral-500 hover:bg-neutral-50"
+                          >
                             Hired
-                          </button>
+                          </SubmitButton>
                         </form>
                       </div>
                     </td>

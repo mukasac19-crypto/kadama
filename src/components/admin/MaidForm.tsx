@@ -10,6 +10,7 @@ import {
 } from "@/lib/config";
 import type { Agency, Maid } from "@/lib/types";
 import { upsertMaid } from "@/app/admin/actions";
+import { SubmitButton } from "./SubmitButton";
 
 const inputClass =
   "w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none";
@@ -193,12 +194,13 @@ export function MaidForm({ maid, agencies }: { maid?: Maid; agencies: Agency[] }
         </Field>
       </div>
 
-      <button
-        type="submit"
-        className="rounded-full bg-brand-700 px-8 py-3 text-sm font-semibold text-white transition hover:bg-brand-800"
+      <SubmitButton
+        pendingLabel={maid ? "Saving…" : "Creating…"}
+        doneLabel="✓ Saved"
+        className="rounded-full bg-brand-700 px-8 py-3 text-sm font-semibold text-white hover:bg-brand-800"
       >
         {maid ? "Save changes" : "Create maid"}
-      </button>
+      </SubmitButton>
     </form>
   );
 }

@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { EMIRATES } from "@/lib/config";
 import { createAgency } from "../actions";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 
 const inputClass =
   "rounded-lg border border-neutral-200 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none";
@@ -36,9 +37,13 @@ export default async function AdminAgenciesPage() {
           placeholder="Commission terms (e.g. AED 1,500 / placement)"
           className={inputClass}
         />
-        <button className="rounded-lg bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-800">
+        <SubmitButton
+          pendingLabel="Adding…"
+          doneLabel="✓ Added"
+          className="rounded-lg bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-800"
+        >
           + Add agency
-        </button>
+        </SubmitButton>
       </form>
 
       <div className="overflow-x-auto rounded-2xl border border-neutral-200 bg-white">

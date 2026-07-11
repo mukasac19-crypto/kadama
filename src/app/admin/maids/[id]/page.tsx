@@ -6,15 +6,20 @@ import { confirmedLabel } from "@/lib/format";
 import { MaidForm } from "@/components/admin/MaidForm";
 import { PhotoManager } from "@/components/admin/PhotoManager";
 import { VideoManager } from "@/components/admin/VideoManager";
+import { SavedBanner } from "@/components/admin/SavedBanner";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 import { confirmAvailability, setMaidStatus } from "../../actions";
 import type { Agency, Maid } from "@/lib/types";
 
 export default async function EditMaidPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ saved?: string; created?: string }>;
 }) {
   const { id } = await params;
+  const { saved, created } = await searchParams;
   const supabase = await createClient();
 
   const [{ data: maidData }, { data: agencies }] = await Promise.all([
@@ -33,6 +38,8 @@ export default async function EditMaidPage({
 
   return (
     <div className="space-y-6">
+      {created && <SavedBanner message="Maid created — now add photos and a video, then publish." />}
+      {saved && <SavedBanner message="Changes saved." />}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h2 className="text-lg font-bold">
@@ -47,17 +54,25 @@ export default async function EditMaidPage({
         <div className="flex flex-wrap gap-2">
           <form action={confirmAvailability}>
             <input type="hidden" name="id" value={maid.id} />
-            <button className="rounded-full bg-brand-700 px-4 py-2 text-xs font-semibold text-white hover:bg-brand-800">
+            <SubmitButton
+              pendingLabel="Confirming…"
+              doneLabel="✓ Confirmed"
+              className="rounded-full bg-brand-700 px-4 py-2 text-xs font-semibold text-white hover:bg-brand-800"
+            >
               Confirm available
-            </button>
+            </SubmitButton>
           </form>
           {maid.status !== "published" && (
             <form action={setMaidStatus}>
               <input type="hidden" name="id" value={maid.id} />
               <input type="hidden" name="status" value="published" />
-              <button className="rounded-full bg-neutral-900 px-4 py-2 text-xs font-semibold text-white hover:bg-neutral-700">
+              <SubmitButton
+                pendingLabel="Publishing…"
+                doneLabel="✓ Published"
+                className="rounded-full bg-neutral-900 px-4 py-2 text-xs font-semibold text-white hover:bg-neutral-700"
+              >
                 Publish
-              </button>
+              </SubmitButton>
             </form>
           )}
           {maid.status === "published" && (
@@ -65,16 +80,24 @@ export default async function EditMaidPage({
               <form action={setMaidStatus}>
                 <input type="hidden" name="id" value={maid.id} />
                 <input type="hidden" name="status" value="reserved" />
-                <button className="rounded-full border border-amber-400 px-4 py-2 text-xs font-semibold text-amber-600 hover:bg-amber-50">
+                <SubmitButton
+                  pendingLabel="Updating…"
+                  doneLabel="✓ Reserved"
+                  className="rounded-full border border-amber-400 px-4 py-2 text-xs font-semibold text-amber-600 hover:bg-amber-50"
+                >
                   Mark reserved
-                </button>
+                </SubmitButton>
               </form>
               <form action={setMaidStatus}>
                 <input type="hidden" name="id" value={maid.id} />
                 <input type="hidden" name="status" value="hired" />
-                <button className="rounded-full border border-neutral-300 px-4 py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-50">
+                <SubmitButton
+                  pendingLabel="Updating…"
+                  doneLabel="✓ Hired"
+                  className="rounded-full border border-neutral-300 px-4 py-2 text-xs font-semibold text-neutral-600 hover:bg-neutral-50"
+                >
                   Mark hired
-                </button>
+                </SubmitButton>
               </form>
             </>
           )}

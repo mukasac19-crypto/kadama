@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { INQUIRY_STATUSES } from "@/lib/config";
 import { formatDate } from "@/lib/format";
 import { createInquiry, updateInquiry } from "../actions";
+import { SubmitButton } from "@/components/admin/SubmitButton";
 import type { Inquiry } from "@/lib/types";
 
 const inputClass =
@@ -27,9 +28,13 @@ export default async function AdminInquiriesPage() {
         <input name="family_name" placeholder="Family name" className={inputClass} />
         <input name="family_phone" placeholder="Family phone / WhatsApp" className={inputClass} />
         <input name="notes" placeholder="Notes" className={inputClass} />
-        <button className="rounded-lg bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-800">
+        <SubmitButton
+          pendingLabel="Logging…"
+          doneLabel="✓ Logged"
+          className="rounded-lg bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-800"
+        >
           + Log inquiry
-        </button>
+        </SubmitButton>
       </form>
 
       <div className="overflow-x-auto rounded-2xl border border-neutral-200 bg-white">
@@ -102,9 +107,13 @@ export default async function AdminInquiriesPage() {
                       placeholder="Notes"
                       className={`${inputClass} w-40`}
                     />
-                    <button className="rounded-full bg-neutral-900 px-4 py-1.5 text-xs font-semibold text-white hover:bg-neutral-700">
+                    <SubmitButton
+                      pendingLabel="Saving…"
+                      doneLabel="✓ Saved"
+                      className="rounded-full bg-neutral-900 px-4 py-1.5 text-xs font-semibold text-white hover:bg-neutral-700"
+                    >
                       Save
-                    </button>
+                    </SubmitButton>
                   </form>
                 </td>
               </tr>
