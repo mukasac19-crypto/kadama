@@ -1,10 +1,18 @@
-import { createAdminClient } from "./supabase/admin";
 import type { Maid, MaidPhoto } from "./types";
 
-const SIGNED_URL_TTL_SECONDS = 60 * 60; // 1 hour
+/**
+ * All photo URLs go through our same-origin proxy (/api/img/...) so the
+ * browser never talks to supabase.co directly — see api/img/[...key].
+ * Originals stay in the private bucket; the proxy checks the session
+ * before streaming them.
+ */
 
 export function blurredPublicUrl(path: string): string {
-  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/maid-photos-public/${path}`;
+  return `/api/img/blur/${path}`;
+}
+
+export function fullPhotoUrl(photoId: string): string {
+  return `/api/img/full/${photoId}`;
 }
 
 export function primaryPhoto(maid: Maid): MaidPhoto | null {
@@ -13,63 +21,32 @@ export function primaryPhoto(maid: Maid): MaidPhoto | null {
 }
 
 /**
- * Resolve the photo URL each maid card/profile should show.
- * Signed-in users get a short-lived signed URL to the original;
- * anonymous visitors get the genuinely blurred public variant.
+ * Resolve the photo URL each maid card should show: signed-in users get
+ * the original (session enforced by the proxy), visitors get the blur.
  */
 export async function photoUrlsFor(
   maids: Maid[],
   isSignedIn: boolean
 ): Promise<Map<string, string>> {
   const urls = new Map<string, string>();
-  const withPhoto = maids
-    .map((m) => ({ maid: m, photo: primaryPhoto(m) }))
-    .filter((x): x is { maid: Maid; photo: MaidPhoto } => x.photo !== null);
-
-  if (withPhoto.length === 0) return urls;
-
-  if (!isSignedIn) {
-    for (const { maid, photo } of withPhoto) {
-      urls.set(maid.id, blurredPublicUrl(photo.blurred_path));
-    }
-    return urls;
-  }
-
-  const admin = createAdminClient();
-  const { data } = await admin.storage
-    .from("maid-photos")
-    .createSignedUrls(
-      withPhoto.map((x) => x.photo.original_path),
-      SIGNED_URL_TTL_SECONDS
+  for (const maid of maids) {
+    const photo = primaryPhoto(maid);
+    if (!photo) continue;
+    urls.set(
+      maid.id,
+      isSignedIn ? fullPhotoUrl(photo.id) : blurredPublicUrl(photo.blurred_path)
     );
-
-  const byPath = new Map(
-    (data ?? [])
-      .filter((d) => d.signedUrl && d.path)
-      .map((d) => [d.path as string, d.signedUrl])
-  );
-  for (const { maid, photo } of withPhoto) {
-    const url = byPath.get(photo.original_path);
-    if (url) urls.set(maid.id, url);
   }
   return urls;
 }
 
-/** Signed URLs for every photo of one maid (profile gallery, admin). */
+/** URLs for every photo of one maid (profile gallery, admin). */
 export async function signedUrlsForPhotos(
   photos: MaidPhoto[]
 ): Promise<Map<string, string>> {
   const urls = new Map<string, string>();
-  if (photos.length === 0) return urls;
-  const admin = createAdminClient();
-  const { data } = await admin.storage
-    .from("maid-photos")
-    .createSignedUrls(
-      photos.map((p) => p.original_path),
-      SIGNED_URL_TTL_SECONDS
-    );
-  (data ?? []).forEach((d, i) => {
-    if (d.signedUrl) urls.set(photos[i].id, d.signedUrl);
-  });
+  for (const photo of photos) {
+    urls.set(photo.id, fullPhotoUrl(photo.id));
+  }
   return urls;
 }
