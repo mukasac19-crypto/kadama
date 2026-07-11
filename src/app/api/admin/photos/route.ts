@@ -62,18 +62,43 @@ export async function POST(request: NextRequest) {
   const admin = createAdminClient();
   const objectPath = `${maidId}/${randomUUID()}.jpg`;
 
+  // Wrap buffers in Blobs: passing raw Node Buffers through the storage
+  // client gets text-mangled on some serverless runtimes (Vercel),
+  // silently corrupting the stored file. Blobs are binary-safe everywhere.
+  const toBlob = (buf: Buffer) =>
+    new Blob([new Uint8Array(buf)], { type: "image/jpeg" });
+
   const [originalRes, blurredRes] = await Promise.all([
     admin.storage
       .from("maid-photos")
-      .upload(objectPath, original, { contentType: "image/jpeg" }),
+      .upload(objectPath, toBlob(original), { contentType: "image/jpeg" }),
     admin.storage
       .from("maid-photos-public")
-      .upload(objectPath, blurred, { contentType: "image/jpeg" }),
+      .upload(objectPath, toBlob(blurred), { contentType: "image/jpeg" }),
   ]);
 
   if (originalRes.error || blurredRes.error) {
     const message = originalRes.error?.message ?? blurredRes.error?.message;
     return NextResponse.json({ error: message }, { status: 500 });
+  }
+
+  // Read the stored file back and verify it is still a real JPEG
+  // (starts with FF D8 FF) — never silently keep a corrupted upload.
+  const { data: storedBlob } = await admin.storage
+    .from("maid-photos-public")
+    .download(objectPath);
+  const stored = storedBlob ? new Uint8Array(await storedBlob.arrayBuffer()) : null;
+  const isValidJpeg =
+    stored && stored[0] === 0xff && stored[1] === 0xd8 && stored[2] === 0xff;
+  if (!isValidJpeg) {
+    await Promise.all([
+      admin.storage.from("maid-photos").remove([objectPath]),
+      admin.storage.from("maid-photos-public").remove([objectPath]),
+    ]);
+    return NextResponse.json(
+      { error: "Upload verification failed — the stored file was corrupted. Please try again." },
+      { status: 500 }
+    );
   }
 
   const { count } = await admin
