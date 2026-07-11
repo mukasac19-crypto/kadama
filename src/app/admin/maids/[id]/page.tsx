@@ -5,6 +5,7 @@ import { signedUrlsForPhotos } from "@/lib/photos";
 import { confirmedLabel } from "@/lib/format";
 import { MaidForm } from "@/components/admin/MaidForm";
 import { PhotoManager } from "@/components/admin/PhotoManager";
+import { VideoManager } from "@/components/admin/VideoManager";
 import { confirmAvailability, setMaidStatus } from "../../actions";
 import type { Agency, Maid } from "@/lib/types";
 
@@ -17,7 +18,11 @@ export default async function EditMaidPage({
   const supabase = await createClient();
 
   const [{ data: maidData }, { data: agencies }] = await Promise.all([
-    supabase.from("maids").select("*, maid_photos(*)").eq("id", id).maybeSingle(),
+    supabase
+      .from("maids")
+      .select("*, maid_photos(*), maid_videos(*)")
+      .eq("id", id)
+      .maybeSingle(),
     supabase.from("agencies").select("*").order("name"),
   ]);
 
@@ -92,6 +97,11 @@ export default async function EditMaidPage({
           url: photoUrls.get(photo.id) ?? null,
           is_primary: photo.is_primary,
         }))}
+      />
+
+      <VideoManager
+        maidId={maid.id}
+        videos={(maid.maid_videos ?? []).map((video) => ({ id: video.id }))}
       />
 
       <MaidForm maid={maid} agencies={(agencies ?? []) as Agency[]} />

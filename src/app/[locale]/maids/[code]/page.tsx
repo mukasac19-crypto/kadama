@@ -14,7 +14,7 @@ async function getMaid(code: string): Promise<Maid | null> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("maids")
-    .select("*, maid_photos(*)")
+    .select("*, maid_photos(*), maid_videos(*)")
     .eq("code", code)
     .in("status", ["published", "reserved"])
     .maybeSingle();
@@ -57,6 +57,7 @@ export default async function MaidProfilePage({ params }: { params: Params }) {
   const firstName = maid.full_name.split(" ")[0];
   const age = ageFrom(maid.date_of_birth);
   const photos = maid.maid_photos ?? [];
+  const videos = maid.maid_videos ?? [];
   const primary = primaryPhoto(maid);
   const dateLocale = locale === "ar" ? "ar-AE" : "en-GB";
 
@@ -149,6 +150,42 @@ export default async function MaidProfilePage({ params }: { params: Params }) {
                   />
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Intro videos — playable for members, teaser for visitors */}
+          {videos.length > 0 && (
+            <div className="mt-6">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-400">
+                {dict.profile.videosTitle}
+              </h2>
+              {user ? (
+                <div className="mt-3 space-y-3">
+                  {videos.map((video) => (
+                    <video
+                      key={video.id}
+                      src={`/api/img/video/${video.id}`}
+                      controls
+                      preload="metadata"
+                      className="aspect-video w-full rounded-2xl border border-neutral-200 bg-black"
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-3 flex flex-col items-center gap-3 rounded-2xl border border-dashed border-brand-300 bg-brand-50 p-6 text-center">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-8 w-8 text-brand-700">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M10 9l5 3-5 3V9z" fill="currentColor" stroke="none" />
+                  </svg>
+                  <p className="text-sm font-medium text-brand-900">{dict.profile.videoLocked}</p>
+                  <Link
+                    href={lp(locale, `/login?mode=signup&next=${encodeURIComponent(lp(locale, `/maids/${maid.code}`))}`)}
+                    className="rounded-full bg-brand-700 px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-800"
+                  >
+                    {dict.profile.createFreeAccount}
+                  </Link>
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -125,6 +125,8 @@ export const ar: Dictionary = {
       languages: "اللغات",
     },
     perMonth: "/شهرياً",
+    videosTitle: "فيديو تعريفي",
+    videoLocked: "لدى هذه العاملة فيديو تعريفي — أنشئ حساباً مجانياً لمشاهدته.",
     notFoundTitle: "الملف غير موجود",
     notFoundText: "ربما تم توظيف هذه العاملة أو إزالة ملفها.",
   },

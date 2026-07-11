@@ -15,6 +15,13 @@ export interface MaidPhoto {
   created_at: string;
 }
 
+export interface MaidVideo {
+  id: string;
+  maid_id: string;
+  video_path: string;
+  created_at: string;
+}
+
 export interface Maid {
   id: string;
   code: string;
@@ -39,6 +46,7 @@ export interface Maid {
   created_at: string;
   updated_at: string;
   maid_photos?: MaidPhoto[];
+  maid_videos?: MaidVideo[];
 }
 
 export interface Agency {

@@ -34,6 +34,50 @@ export async function GET(
     });
   }
 
+  if (kind === "video" && rest.length === 1) {
+    const videoId = rest[0];
+
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      return new NextResponse(null, { status: 403 });
+    }
+
+    const admin = createAdminClient();
+    const { data: video } = await admin
+      .from("maid_videos")
+      .select("video_path")
+      .eq("id", videoId)
+      .maybeSingle();
+    if (!video) {
+      return new NextResponse(null, { status: 404 });
+    }
+
+    // Stream from the private bucket, forwarding Range so <video> can seek.
+    const upstreamHeaders: Record<string, string> = {
+      Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY!}`,
+    };
+    const range = request.headers.get("range");
+    if (range) upstreamHeaders["Range"] = range;
+
+    const upstream = await fetch(
+      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/maid-videos/${video.video_path}`,
+      { headers: upstreamHeaders }
+    );
+    if (!upstream.ok && upstream.status !== 206) {
+      return new NextResponse(null, { status: upstream.status });
+    }
+
+    const headers = new Headers({ "Cache-Control": "private, max-age=3600" });
+    for (const name of ["content-type", "content-length", "content-range", "accept-ranges"]) {
+      const value = upstream.headers.get(name);
+      if (value) headers.set(name, value);
+    }
+    return new NextResponse(upstream.body, { status: upstream.status, headers });
+  }
+
   if (kind === "full" && rest.length === 1) {
     const photoId = rest[0];
 

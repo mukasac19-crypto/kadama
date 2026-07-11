@@ -124,6 +124,9 @@ export const en = {
       languages: "Languages",
     },
     perMonth: "/month",
+    videosTitle: "Intro video",
+    videoLocked:
+      "This helper has an intro video — create a free account to watch it.",
     notFoundTitle: "Profile not found",
     notFoundText: "This profile may have been hired or removed.",
   },

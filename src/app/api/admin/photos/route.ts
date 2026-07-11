@@ -2,28 +2,15 @@ import { NextResponse, type NextRequest } from "next/server";
 import { randomUUID } from "node:crypto";
 import sharp from "sharp";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/admin-auth";
 
 /**
  * Photo upload pipeline. One upload produces two objects:
- *  - original (max 1200px) -> private bucket, served via signed URLs to
- *    signed-in users only
+ *  - original (max 1200px) -> private bucket, served to signed-in users
+ *    only via the /api/img proxy
  *  - genuinely blurred variant -> public bucket, what anonymous visitors
  *    and search engines see
  */
-async function requireAdmin() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .maybeSingle();
-  return profile?.role === "admin" ? user : null;
-}
 
 export async function POST(request: NextRequest) {
   const user = await requireAdmin();
