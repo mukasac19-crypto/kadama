@@ -77,10 +77,11 @@ export function MaidCard({
           </p>
         </div>
 
+        {/* Salary hidden from the public site for now — re-enable later if needed:
         <p className="text-sm font-semibold text-brand-800">
           {formatAed(maid.expected_salary_aed)}
           <span className="font-normal text-neutral-400"> {dict.card.perMonth}</span>
-        </p>
+        </p> */}
 
         {maid.skills.length > 0 && (
           <div className="flex flex-wrap gap-1.5">

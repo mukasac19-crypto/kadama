@@ -73,7 +73,8 @@ export default async function MaidProfilePage({ params }: { params: Params }) {
     [f.visaStatus, labelFor(dict.values.visa, maid.visa_status)],
     [f.liveInOut, labelFor(dict.values.live, maid.live_arrangement)],
     [f.experience, dict.profile.years(maid.experience_years)],
-    [f.expectedSalary, `${formatAed(maid.expected_salary_aed)} ${dict.profile.perMonth}`],
+    // Salary hidden from the public site for now — re-enable later if needed:
+    // [f.expectedSalary, `${formatAed(maid.expected_salary_aed)} ${dict.profile.perMonth}`],
     [f.availableFrom, formatDate(maid.available_from, dateLocale)],
     [f.religion, labelFor(dict.values.religions, maid.religion)],
     [f.maritalStatus, labelFor(dict.values.marital, maid.marital_status)],

@@ -71,7 +71,7 @@ export default async function MaidsPage({
       <form
         method="get"
         action={lp(locale, "/maids")}
-        className="mt-6 grid gap-3 rounded-2xl border border-neutral-200 bg-white p-4 sm:grid-cols-3 lg:grid-cols-7"
+        className="mt-6 grid gap-3 rounded-2xl border border-neutral-200 bg-white p-4 sm:grid-cols-3 lg:grid-cols-6"
       >
         <select name="nationality" defaultValue={filters.nationality} className={selectClass}>
           <option value="">{dict.browse.nationality}</option>
@@ -115,6 +115,7 @@ export default async function MaidsPage({
             </option>
           ))}
         </select>
+        {/* Salary filter hidden from the public site for now — re-enable later if needed:
         <input
           type="number"
           name="maxSalary"
@@ -123,7 +124,7 @@ export default async function MaidsPage({
           min={500}
           step={100}
           className={selectClass}
-        />
+        /> */}
         <div className="flex gap-2">
           <button
             type="submit"
