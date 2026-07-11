@@ -8,10 +8,9 @@ Tailwind CSS.
 
 ## How the platform works
 
-- **Families** browse a public catalog. Photos are **genuinely blurred** for
-  anonymous visitors — signing up (free) unlocks the real photos via short-lived
-  signed URLs. There is no CSS-blur trick; the original images live in a private
-  bucket.
+- **Families** browse a public catalog. Full profiles — photos and intro videos
+  included — are visible to everyone, no account needed. Images and videos are
+  streamed through the same-origin `/api/img` proxy from Supabase Storage.
 - **WhatsApp is the funnel.** Every button routes through `/api/wa`, which logs
   the click (maid, page, user) and redirects to `wa.me` with a pre-filled message
   carrying the maid's profile code. One WhatsApp Business number handles both
@@ -101,7 +100,7 @@ Refresh the site — an **Admin** link appears in the header.
 | `src/app/[locale]/about`, `how-it-works`, `contact`, `terms`, `privacy` | Content pages — copy lives in `src/lib/i18n/{en,ar}.ts` |
 | `src/app/login`, `signup`, `auth/` | Email/password auth |
 | `src/app/api/wa/route.ts` | Tracked WhatsApp redirect (logs `wa_clicks`) |
-| `src/app/api/admin/photos/route.ts` | Upload pipeline: original → private bucket, blurred → public |
+| `src/app/api/admin/photos/route.ts` | Upload pipeline: normalized JPEG → `maid-photos` bucket, served via `/api/img` |
 | `src/app/admin/` | Dashboard (stats + stale queue), maids CRUD, inquiries ledger, agencies |
 | `src/proxy.ts` | Session refresh + `/admin` auth gate |
 | `src/lib/config.ts` | WhatsApp number, nationalities, skills, statuses — edit lists here |
@@ -112,7 +111,7 @@ Refresh the site — an **Admin** link appears in the header.
 1. **Morning:** open Admin → Dashboard. Work the stale queue — ping each agency
    on WhatsApp, tap *Confirmed available / Reserved / Hired*.
 2. **Agency sends candidates:** Admin → Maids → *Add maid*. Save as draft, upload
-   photos (blur is automatic), publish.
+   photos, publish.
 3. **Family messages:** reply on WhatsApp, then Admin → Inquiries → *Log inquiry*
    with the maid's code. Update status as the deal progresses; record the
    commission when hired. Unpaid commissions show on the dashboard.

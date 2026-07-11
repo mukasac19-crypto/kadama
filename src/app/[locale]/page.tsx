@@ -18,10 +18,6 @@ export default async function HomePage({
   const dict = getDict(locale);
 
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   const { data } = await supabase
     .from("maids")
     .select("*, maid_photos(*)")
@@ -30,7 +26,7 @@ export default async function HomePage({
     .limit(6);
 
   const maids = (data ?? []) as Maid[];
-  const photoUrls = await photoUrlsFor(maids, Boolean(user));
+  const photoUrls = await photoUrlsFor(maids);
 
   return (
     <div>
@@ -128,7 +124,6 @@ export default async function HomePage({
                 key={maid.id}
                 maid={maid}
                 photoUrl={photoUrls.get(maid.id) ?? null}
-                locked={!user}
                 locale={locale}
               />
             ))}

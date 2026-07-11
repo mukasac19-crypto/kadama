@@ -1,6 +1,6 @@
 // One-off helper: pushes a synthetic test photo through the exact same
-// pipeline as /api/admin/photos (original -> private bucket, blurred ->
-// public bucket) so the photo-gating can be seen with real data.
+// pipeline as /api/admin/photos (normalized JPEG -> 'maid-photos' bucket,
+// served publicly via the /api/img proxy) so it can be seen with real data.
 // Usage: node scripts/demo-photo.mjs [MAID_CODE]
 import { readFileSync } from "node:fs";
 import { randomUUID } from "node:crypto";
@@ -48,27 +48,17 @@ const original = await sharp(input)
   .resize(1200, 1200, { fit: "inside", withoutEnlargement: true })
   .jpeg({ quality: 82 })
   .toBuffer();
-const blurred = await sharp(input)
-  .resize(600, 600, { fit: "inside", withoutEnlargement: true })
-  .blur(24)
-  .jpeg({ quality: 60 })
-  .toBuffer();
 
-// --- upload to both buckets (same object path, like the API route) ---
+// --- upload (same object path convention as the API route) ---
 const objectPath = `${maid.id}/${randomUUID()}.jpg`;
-for (const [bucket, body] of [
-  ["maid-photos", original],
-  ["maid-photos-public", blurred],
-]) {
-  const res = await fetch(`${URL_BASE}/storage/v1/object/${bucket}/${objectPath}`, {
-    method: "POST",
-    headers: { ...headers, "Content-Type": "image/jpeg" },
-    body,
-  });
-  if (!res.ok) {
-    console.error(`Upload to ${bucket} failed:`, await res.text());
-    process.exit(1);
-  }
+const uploadRes = await fetch(`${URL_BASE}/storage/v1/object/maid-photos/${objectPath}`, {
+  method: "POST",
+  headers: { ...headers, "Content-Type": "image/jpeg" },
+  body: original,
+});
+if (!uploadRes.ok) {
+  console.error(`Upload to maid-photos failed:`, await uploadRes.text());
+  process.exit(1);
 }
 
 // --- register the photo (primary if it's the first) ---
@@ -84,6 +74,7 @@ const insertRes = await fetch(`${URL_BASE}/rest/v1/maid_photos`, {
   body: JSON.stringify({
     maid_id: maid.id,
     original_path: objectPath,
+    // Legacy column (NOT NULL); blurred variants are no longer generated.
     blurred_path: objectPath,
     is_primary: existing.length === 0,
   }),
@@ -94,5 +85,4 @@ if (!insertRes.ok) {
 }
 
 console.log(`Photo added for ${maid.full_name} (${code})`);
-console.log(`Blurred (public):  ${URL_BASE}/storage/v1/object/public/maid-photos-public/${objectPath}`);
-console.log(`Original (private): ${URL_BASE}/storage/v1/object/public/maid-photos/${objectPath}  <- should NOT be accessible`);
+console.log(`Served publicly via the app at /api/img/full/<photoId>`);

@@ -64,7 +64,7 @@ export function PhotoManager({
         <h2 className="font-semibold">
           Photos{" "}
           <span className="text-xs font-normal text-neutral-400">
-            — original stays private; a blurred copy is generated for visitors
+            — shown publicly on the site
           </span>
         </h2>
         <label className="cursor-pointer rounded-full bg-neutral-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-neutral-700">

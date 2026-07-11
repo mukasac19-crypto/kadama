@@ -5,11 +5,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/admin-auth";
 
 /**
- * Photo upload pipeline. One upload produces two objects:
- *  - original (max 1200px) -> private bucket, served to signed-in users
- *    only via the /api/img proxy
- *  - genuinely blurred variant -> public bucket, what anonymous visitors
- *    and search engines see
+ * Photo upload pipeline: normalize the image (max 1200px JPEG) and store
+ * it in the 'maid-photos' bucket, served to everyone via the /api/img proxy.
  */
 
 export async function POST(request: NextRequest) {
@@ -29,18 +26,11 @@ export async function POST(request: NextRequest) {
   const input = Buffer.from(await file.arrayBuffer());
 
   let original: Buffer;
-  let blurred: Buffer;
   try {
     original = await sharp(input)
       .rotate()
       .resize(1200, 1200, { fit: "inside", withoutEnlargement: true })
       .jpeg({ quality: 82 })
-      .toBuffer();
-    blurred = await sharp(input)
-      .rotate()
-      .resize(600, 600, { fit: "inside", withoutEnlargement: true })
-      .blur(24)
-      .jpeg({ quality: 60 })
       .toBuffer();
   } catch {
     return NextResponse.json({ error: "Could not process image" }, { status: 400 });
@@ -55,33 +45,24 @@ export async function POST(request: NextRequest) {
   const toBlob = (buf: Buffer) =>
     new Blob([new Uint8Array(buf)], { type: "image/jpeg" });
 
-  const [originalRes, blurredRes] = await Promise.all([
-    admin.storage
-      .from("maid-photos")
-      .upload(objectPath, toBlob(original), { contentType: "image/jpeg" }),
-    admin.storage
-      .from("maid-photos-public")
-      .upload(objectPath, toBlob(blurred), { contentType: "image/jpeg" }),
-  ]);
+  const originalRes = await admin.storage
+    .from("maid-photos")
+    .upload(objectPath, toBlob(original), { contentType: "image/jpeg" });
 
-  if (originalRes.error || blurredRes.error) {
-    const message = originalRes.error?.message ?? blurredRes.error?.message;
-    return NextResponse.json({ error: message }, { status: 500 });
+  if (originalRes.error) {
+    return NextResponse.json({ error: originalRes.error.message }, { status: 500 });
   }
 
   // Read the stored file back and verify it is still a real JPEG
   // (starts with FF D8 FF) — never silently keep a corrupted upload.
   const { data: storedBlob } = await admin.storage
-    .from("maid-photos-public")
+    .from("maid-photos")
     .download(objectPath);
   const stored = storedBlob ? new Uint8Array(await storedBlob.arrayBuffer()) : null;
   const isValidJpeg =
     stored && stored[0] === 0xff && stored[1] === 0xd8 && stored[2] === 0xff;
   if (!isValidJpeg) {
-    await Promise.all([
-      admin.storage.from("maid-photos").remove([objectPath]),
-      admin.storage.from("maid-photos-public").remove([objectPath]),
-    ]);
+    await admin.storage.from("maid-photos").remove([objectPath]);
     return NextResponse.json(
       { error: "Upload verification failed — the stored file was corrupted. Please try again." },
       { status: 500 }
@@ -98,6 +79,7 @@ export async function POST(request: NextRequest) {
     .insert({
       maid_id: maidId,
       original_path: objectPath,
+      // Legacy column (NOT NULL); blurred variants are no longer generated.
       blurred_path: objectPath,
       is_primary: (count ?? 0) === 0,
     })

@@ -4,27 +4,13 @@ import { ageFrom, formatAed } from "@/lib/format";
 import { getDict, labelFor, lp, type Locale } from "@/lib/i18n";
 import { WhatsAppButton } from "./WhatsAppButton";
 
-function LockOverlay({ text }: { text: string }) {
-  return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/25 text-white">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-8 w-8">
-        <rect x="5" y="11" width="14" height="9" rx="2" />
-        <path d="M8 11V8a4 4 0 1 1 8 0v3" />
-      </svg>
-      <span className="rounded-full bg-black/40 px-3 py-1 text-xs font-medium">{text}</span>
-    </div>
-  );
-}
-
 export function MaidCard({
   maid,
   photoUrl,
-  locked,
   locale,
 }: {
   maid: Maid;
   photoUrl: string | null;
-  locked: boolean;
   locale: Locale;
 }) {
   const dict = getDict(locale);
@@ -39,7 +25,7 @@ export function MaidCard({
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={photoUrl}
-            alt={locked ? dict.card.signInToView : firstName}
+            alt={firstName}
             className="h-full w-full object-cover"
             loading="lazy"
           />
@@ -48,7 +34,6 @@ export function MaidCard({
             {firstName.charAt(0)}
           </div>
         )}
-        {locked && photoUrl && <LockOverlay text={dict.card.signInToView} />}
         {maid.status === "reserved" && (
           <span className="absolute start-3 top-3 rounded-full bg-amber-500 px-2.5 py-1 text-xs font-semibold text-white">
             {dict.card.reserved}

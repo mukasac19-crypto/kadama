@@ -36,10 +36,6 @@ export default async function MaidsPage({
   };
 
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   let query = supabase
     .from("maids")
     .select("*, maid_photos(*)")
@@ -57,7 +53,7 @@ export default async function MaidsPage({
 
   const { data } = await query;
   const maids = (data ?? []) as Maid[];
-  const photoUrls = await photoUrlsFor(maids, Boolean(user));
+  const photoUrls = await photoUrlsFor(maids);
 
   const selectClass =
     "w-full rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm";
@@ -148,7 +144,6 @@ export default async function MaidsPage({
               key={maid.id}
               maid={maid}
               photoUrl={photoUrls.get(maid.id) ?? null}
-              locked={!user}
               locale={locale}
             />
           ))}

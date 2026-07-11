@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { blurredPublicUrl, primaryPhoto, signedUrlsForPhotos } from "@/lib/photos";
+import { primaryPhoto, signedUrlsForPhotos } from "@/lib/photos";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { getDict, isLocale, labelFor, lp, type Locale } from "@/lib/i18n";
 import { ageFrom, daysSince, formatAed, formatDate } from "@/lib/format";
@@ -49,11 +49,6 @@ export default async function MaidProfilePage({ params }: { params: Params }) {
   const maid = await getMaid(code);
   if (!maid) notFound();
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   const firstName = maid.full_name.split(" ")[0];
   const age = ageFrom(maid.date_of_birth);
   const photos = maid.maid_photos ?? [];
@@ -61,10 +56,7 @@ export default async function MaidProfilePage({ params }: { params: Params }) {
   const primary = primaryPhoto(maid);
   const dateLocale = locale === "ar" ? "ar-AE" : "en-GB";
 
-  // Signed-in users see originals; anonymous visitors see the blurred variants.
-  const signedUrls = user ? await signedUrlsForPhotos(photos) : new Map<string, string>();
-  const urlFor = (photoId: string, blurredPath: string) =>
-    user ? (signedUrls.get(photoId) ?? null) : blurredPublicUrl(blurredPath);
+  const photoUrls = await signedUrlsForPhotos(photos);
 
   const f = dict.profile.facts;
   const facts: Array<[string, string]> = [
@@ -105,8 +97,8 @@ export default async function MaidProfilePage({ params }: { params: Params }) {
               {primary ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={urlFor(primary.id, primary.blurred_path) ?? ""}
-                  alt={user ? firstName : dict.profile.membersOnly}
+                  src={photoUrls.get(primary.id) ?? ""}
+                  alt={firstName}
                   className="h-full w-full object-cover"
                 />
               ) : (
@@ -115,21 +107,6 @@ export default async function MaidProfilePage({ params }: { params: Params }) {
                 </div>
               )}
             </div>
-            {!user && primary && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/30 p-6 text-center text-white">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-10 w-10">
-                  <rect x="5" y="11" width="14" height="9" rx="2" />
-                  <path d="M8 11V8a4 4 0 1 1 8 0v3" />
-                </svg>
-                <p className="font-semibold">{dict.profile.membersOnly}</p>
-                <Link
-                  href={lp(locale, `/login?mode=signup&next=${encodeURIComponent(lp(locale, `/maids/${maid.code}`))}`)}
-                  className="rounded-full bg-white px-5 py-2 text-sm font-semibold text-neutral-900 transition hover:bg-neutral-100"
-                >
-                  {dict.profile.createFreeAccount}
-                </Link>
-              </div>
-            )}
             {maid.status === "reserved" && (
               <span className="absolute start-4 top-4 rounded-full bg-amber-500 px-3 py-1 text-sm font-semibold text-white">
                 {dict.profile.reserved}
@@ -143,7 +120,7 @@ export default async function MaidProfilePage({ params }: { params: Params }) {
                 <div key={photo.id} className="aspect-square overflow-hidden rounded-xl bg-neutral-100">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={urlFor(photo.id, photo.blurred_path) ?? ""}
+                    src={photoUrls.get(photo.id) ?? ""}
                     alt=""
                     className="h-full w-full object-cover"
                     loading="lazy"
@@ -153,39 +130,23 @@ export default async function MaidProfilePage({ params }: { params: Params }) {
             </div>
           )}
 
-          {/* Intro videos — playable for members, teaser for visitors */}
+          {/* Intro videos */}
           {videos.length > 0 && (
             <div className="mt-6">
               <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-400">
                 {dict.profile.videosTitle}
               </h2>
-              {user ? (
-                <div className="mt-3 space-y-3">
-                  {videos.map((video) => (
-                    <video
-                      key={video.id}
-                      src={`/api/img/video/${video.id}`}
-                      controls
-                      preload="metadata"
-                      className="aspect-video w-full rounded-2xl border border-neutral-200 bg-black"
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="mt-3 flex flex-col items-center gap-3 rounded-2xl border border-dashed border-brand-300 bg-brand-50 p-6 text-center">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-8 w-8 text-brand-700">
-                    <circle cx="12" cy="12" r="9" />
-                    <path d="M10 9l5 3-5 3V9z" fill="currentColor" stroke="none" />
-                  </svg>
-                  <p className="text-sm font-medium text-brand-900">{dict.profile.videoLocked}</p>
-                  <Link
-                    href={lp(locale, `/login?mode=signup&next=${encodeURIComponent(lp(locale, `/maids/${maid.code}`))}`)}
-                    className="rounded-full bg-brand-700 px-5 py-2 text-sm font-semibold text-white transition hover:bg-brand-800"
-                  >
-                    {dict.profile.createFreeAccount}
-                  </Link>
-                </div>
-              )}
+              <div className="mt-3 space-y-3">
+                {videos.map((video) => (
+                  <video
+                    key={video.id}
+                    src={`/api/img/video/${video.id}`}
+                    controls
+                    preload="metadata"
+                    className="aspect-video w-full rounded-2xl border border-neutral-200 bg-black"
+                  />
+                ))}
+              </div>
             </div>
           )}
         </div>

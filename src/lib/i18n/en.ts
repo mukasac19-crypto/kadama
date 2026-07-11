@@ -95,8 +95,6 @@ export const en = {
   },
   profile: {
     back: "← Back to all maids",
-    membersOnly: "Photos are for members only",
-    createFreeAccount: "Create a free account",
     reserved: "Reserved",
     confirmed: (days: number) =>
       days === 0
@@ -125,13 +123,10 @@ export const en = {
     },
     perMonth: "/month",
     videosTitle: "Intro video",
-    videoLocked:
-      "This helper has an intro video — create a free account to watch it.",
     notFoundTitle: "Profile not found",
     notFoundText: "This profile may have been hired or removed.",
   },
   card: {
-    signInToView: "Sign in to view photo",
     viewProfile: "View profile",
     whatsapp: "WhatsApp",
     reserved: "Reserved",
@@ -199,7 +194,7 @@ export const en = {
     ],
     checklistTitle: "What to send us for each candidate",
     checklist: [
-      "Full name and a clear photo (we blur it publicly to protect her privacy)",
+      "Full name and a clear photo",
       "Nationality, age, and current location",
       "Visa status (transferable / visit / cancelled / outside UAE)",
       "Skills, languages, and years of experience",
@@ -337,7 +332,7 @@ export const en = {
       },
       {
         title: "2. Candidate information",
-        body: "Candidate profiles are provided by their agencies with consent for marketing. Public visitors see blurred photos only; full photos are limited to signed-in members.",
+        body: "Candidate profiles, including photos, are provided by their agencies with consent for marketing and are publicly visible on the site.",
       },
       {
         title: "3. How we use your data",
