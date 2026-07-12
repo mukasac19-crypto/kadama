@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { pageAlternates } from "@/lib/seo";
 import { createClient } from "@/lib/supabase/server";
 import { photoUrlsFor } from "@/lib/photos";
 import { MaidCard } from "@/components/MaidCard";
@@ -12,6 +14,21 @@ type Search = { [key: string]: string | string[] | undefined };
 function param(search: Search, key: string): string {
   const value = search[key];
   return typeof value === "string" ? value : "";
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const dict = getDict(locale);
+  return {
+    title: dict.browse.title,
+    description: dict.meta.description,
+    alternates: pageAlternates(locale, "/maids"),
+  };
 }
 
 export default async function MaidsPage({

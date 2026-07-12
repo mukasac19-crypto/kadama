@@ -45,36 +45,6 @@ export const en = {
     viewAll: "View all →",
     emptyText: "New profiles are being added — tell us what you need and we'll match you.",
     chatWithUs: "Chat with us on WhatsApp",
-    trust: [
-      {
-        title: "Verified profiles",
-        text: "Every helper is screened and documented before she appears on Maid Link.",
-      },
-      {
-        title: "Availability you can trust",
-        text: "We re-confirm every listing with its agency — profiles show when availability was last checked.",
-      },
-      {
-        title: "WhatsApp-first",
-        text: "No forms, no waiting. Chat with a real person about any profile in one tap.",
-      },
-      {
-        title: "Licensed & legal",
-        text: "All placements go through licensed UAE recruitment channels — fully compliant hiring.",
-      },
-    ],
-    howTitle: "How it works",
-    steps: [
-      { title: "Browse profiles", text: "Filter by nationality, emirate, salary, skills and visa status." },
-      { title: "Sign up free", text: "Create an account in seconds to unlock photos and full profiles." },
-      { title: "Chat on WhatsApp", text: "One tap connects you to us with the maid's profile already referenced." },
-      { title: "Interview", text: "We arrange a call or in-person interview with your shortlisted helpers." },
-      { title: "Hire with confidence", text: "We handle the paperwork with the licensed agency. You welcome your helper." },
-    ],
-    agencyTitle: "Run a recruitment agency?",
-    agencyText:
-      "Send us your candidates on WhatsApp and we'll market them to thousands of UAE families — you keep running your business, we bring you clients.",
-    agencyCta: "List your maids",
   },
   browse: {
     title: "Find your helper",
@@ -388,6 +358,7 @@ export const en = {
       Ghanaian: "Ghanaian",
       Nigerian: "Nigerian",
       Cameroonian: "Cameroonian",
+      "Sierra Leonean": "Sierra Leonean",
       Tanzanian: "Tanzanian",
       Rwandan: "Rwandan",
       Burundian: "Burundian",

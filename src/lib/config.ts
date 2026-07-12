@@ -6,6 +6,8 @@ export const SITE = {
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "971500000000",
   email: "hello@maidlink.ae", // update when your real inbox is ready
   location: "Dubai, United Arab Emirates",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  gaId: process.env.NEXT_PUBLIC_GA_ID ?? "G-4MFGGZGFW6",
 };
 
 export const NATIONALITIES = [
@@ -23,6 +25,7 @@ export const NATIONALITIES = [
   "Ghanaian",
   "Nigerian",
   "Cameroonian",
+  "Sierra Leonean",
   "Tanzanian",
   "Rwandan",
   "Burundian",

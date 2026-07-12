@@ -1,5 +1,7 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { pageAlternates } from "@/lib/seo";
 import { createClient } from "@/lib/supabase/server";
 import { photoUrlsFor } from "@/lib/photos";
 import { MaidCard } from "@/components/MaidCard";
@@ -7,6 +9,16 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { EMIRATES, NATIONALITIES } from "@/lib/config";
 import { getDict, isLocale, lp } from "@/lib/i18n";
 import type { Maid } from "@/lib/types";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  return { alternates: pageAlternates(locale, "/") };
+}
 
 export default async function HomePage({
   params,
@@ -138,49 +150,6 @@ export default async function HomePage({
         )}
       </section>
 
-      {/* Trust */}
-      <section className="border-y border-neutral-200 bg-white">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 sm:grid-cols-2 lg:grid-cols-4">
-          {dict.home.trust.map((point) => (
-            <div key={point.title}>
-              <h3 className="font-semibold text-brand-800">{point.title}</h3>
-              <p className="mt-2 text-sm text-neutral-600">{point.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <h2 className="text-2xl font-bold">{dict.home.howTitle}</h2>
-        <ol className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-          {dict.home.steps.map((step, i) => (
-            <li key={step.title} className="rounded-2xl border border-neutral-200 bg-white p-5">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold-400 text-sm font-bold text-brand-900">
-                {i + 1}
-              </span>
-              <h3 className="mt-3 font-semibold">{step.title}</h3>
-              <p className="mt-1 text-sm text-neutral-500">{step.text}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      {/* Agency CTA */}
-      <section className="mx-auto max-w-6xl px-4 pb-16">
-        <div className="flex flex-col items-start justify-between gap-6 rounded-3xl bg-brand-800 p-8 text-white sm:flex-row sm:items-center sm:p-12">
-          <div>
-            <h2 className="text-2xl font-bold">{dict.home.agencyTitle}</h2>
-            <p className="mt-2 max-w-xl text-brand-100">{dict.home.agencyText}</p>
-          </div>
-          <Link
-            href={lp(locale, "/list-your-maids")}
-            className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-800 transition hover:bg-brand-50"
-          >
-            {dict.home.agencyCta}
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }

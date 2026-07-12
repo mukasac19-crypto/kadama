@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { primaryPhoto, signedUrlsForPhotos } from "@/lib/photos";
+import { fullPhotoUrl, primaryPhoto, signedUrlsForPhotos } from "@/lib/photos";
+import { pageAlternates } from "@/lib/seo";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { getDict, isLocale, labelFor, lp, type Locale } from "@/lib/i18n";
 import { ageFrom, daysSince, formatAed, formatDate } from "@/lib/format";
@@ -34,9 +35,18 @@ export async function generateMetadata({
   const firstName = maid.full_name.split(" ")[0];
   const nationality = labelFor(dict.values.nationalities, maid.nationality);
   const emirate = maid.emirate ? labelFor(dict.values.emirates, maid.emirate) : null;
+  const title = `${firstName} (#${maid.code}) — ${nationality}${emirate ? ` · ${emirate}` : ""}`;
+  const primary = primaryPhoto(maid);
   return {
-    title: `${firstName} (#${maid.code}) — ${nationality}${emirate ? ` · ${emirate}` : ""}`,
+    title,
     description: maid.bio ?? undefined,
+    alternates: pageAlternates(locale, `/maids/${maid.code}`),
+    openGraph: {
+      title,
+      description: maid.bio ?? undefined,
+      url: lp(locale, `/maids/${maid.code}`),
+      images: primary ? [fullPhotoUrl(primary.id)] : undefined,
+    },
   };
 }
 
