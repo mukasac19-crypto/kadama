@@ -1,31 +1,46 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { photoUrlsFor } from "@/lib/photos";
-import { locationContent, emirateDbName, type EmirateSlug } from "@/lib/content/locations";
 import { MaidCard } from "@/components/MaidCard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { getDict, lp, type Locale } from "@/lib/i18n";
 import { SITE } from "@/lib/config";
 import type { Maid } from "@/lib/types";
 
-export async function LocationLanding({
-  slug,
+/** Shared content shape for a filtered listing landing page. */
+export type LandingContent = {
+  displayName: string;
+  h1: string;
+  intro: string;
+  faqs: { q: string; a: string }[];
+};
+
+/**
+ * Renders a filtered maids listing landing page (by emirate or nationality).
+ * `column` is the maids-table column to filter on; `value` is the stored value.
+ */
+export async function MaidsFilterLanding({
   locale,
+  column,
+  value,
+  content,
+  path,
 }: {
-  slug: EmirateSlug;
   locale: Locale;
+  column: "emirate" | "nationality";
+  value: string;
+  content: LandingContent;
+  path: string;
 }) {
   const dict = getDict(locale);
-  const c = locationContent(slug, locale);
   const base = SITE.url;
-  const path = `/maids/${slug}`;
   const homeLabel = locale === "ar" ? "الرئيسية" : "Home";
 
   const supabase = await createClient();
   const { data } = await supabase
     .from("maids")
     .select("*, maid_photos(*)")
-    .eq("emirate", emirateDbName(slug))
+    .eq(column, value)
     .in("status", ["published", "reserved"])
     .order("last_confirmed_at", { ascending: false })
     .limit(48);
@@ -41,12 +56,12 @@ export async function LocationLanding({
         itemListElement: [
           { "@type": "ListItem", position: 1, name: homeLabel, item: `${base}${lp(locale)}` },
           { "@type": "ListItem", position: 2, name: dict.nav.findMaid, item: `${base}${lp(locale, "/maids")}` },
-          { "@type": "ListItem", position: 3, name: c.h1, item: `${base}${lp(locale, path)}` },
+          { "@type": "ListItem", position: 3, name: content.h1, item: `${base}${lp(locale, path)}` },
         ],
       },
       {
         "@type": "FAQPage",
-        mainEntity: c.faqs.map((f) => ({
+        mainEntity: content.faqs.map((f) => ({
           "@type": "Question",
           name: f.q,
           acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -72,11 +87,11 @@ export async function LocationLanding({
           {dict.nav.findMaid}
         </Link>
         <span className="mx-2">/</span>
-        <span className="text-neutral-700">{c.displayName}</span>
+        <span className="text-neutral-700">{content.displayName}</span>
       </nav>
 
-      <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">{c.h1}</h1>
-      <p className="mt-3 max-w-3xl leading-relaxed text-neutral-600">{c.intro}</p>
+      <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">{content.h1}</h1>
+      <p className="mt-3 max-w-3xl leading-relaxed text-neutral-600">{content.intro}</p>
 
       <div className="mt-5 flex flex-wrap gap-3">
         <WhatsAppButton src="home" lang={locale} label={dict.card.whatsapp} />
@@ -114,7 +129,7 @@ export async function LocationLanding({
       <section className="mt-14 max-w-3xl">
         <h2 className="text-2xl font-bold">{locale === "ar" ? "أسئلة شائعة" : "Frequently asked"}</h2>
         <dl className="mt-6 divide-y divide-neutral-200 border-t border-neutral-200">
-          {c.faqs.map((f) => (
+          {content.faqs.map((f) => (
             <div key={f.q} className="py-5">
               <dt className="font-semibold text-neutral-900">{f.q}</dt>
               <dd className="mt-2 text-neutral-600">{f.a}</dd>

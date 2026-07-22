@@ -7,6 +7,7 @@ import { MaidCard } from "@/components/MaidCard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { EMIRATES, NATIONALITIES, SKILLS } from "@/lib/config";
 import { EMIRATE_SLUGS, emirateDbName } from "@/lib/content/locations";
+import { NATIONALITY_SLUGS, nationalityDbName } from "@/lib/content/nationalities";
 import { getDict, isLocale, labelFor, lp } from "@/lib/i18n";
 import type { Maid } from "@/lib/types";
 
@@ -93,6 +94,22 @@ export default async function MaidsPage({
             className="rounded-full border border-neutral-200 bg-white px-3 py-1 font-medium text-brand-800 transition hover:border-brand-600 hover:bg-brand-50"
           >
             {labelFor(dict.values.emirates, emirateDbName(slug))}
+          </a>
+        ))}
+      </div>
+
+      {/* Browse by nationality — internal links to the nationality landing pages */}
+      <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
+        <span className="text-neutral-500">
+          {locale === "ar" ? "تصفّح حسب الجنسية:" : "Browse by nationality:"}
+        </span>
+        {NATIONALITY_SLUGS.map((slug) => (
+          <a
+            key={slug}
+            href={lp(locale, `/maids/${slug}`)}
+            className="rounded-full border border-neutral-200 bg-white px-3 py-1 font-medium text-brand-800 transition hover:border-brand-600 hover:bg-brand-50"
+          >
+            {labelFor(dict.values.nationalities, nationalityDbName(slug))}
           </a>
         ))}
       </div>

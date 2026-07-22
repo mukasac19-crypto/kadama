@@ -1,6 +1,6 @@
 export const en = {
   meta: {
-    title: "Maid Link — Hire trusted maids & nannies across the UAE",
+    title: "Maid Link — Hire Maids & Nannies in Dubai & the UAE",
     description:
       "Maid Link connects UAE families with verified maids, nannies and caregivers from licensed agencies. Browse profiles, chat on WhatsApp, and hire with confidence.",
   },
@@ -28,6 +28,7 @@ export const en = {
     about: "About us",
     how: "How it works",
     pricing: "Pricing",
+    guides: "Guides",
     contact: "Contact us",
     terms: "Terms of Service",
     privacy: "Privacy Policy",

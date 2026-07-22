@@ -17,7 +17,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  return { alternates: pageAlternates(locale, "/") };
+  const dict = getDict(locale);
+  return {
+    // `absolute` bypasses the "%s | Maid Link" template so the brand isn't doubled.
+    title: { absolute: dict.meta.title },
+    alternates: pageAlternates(locale, "/"),
+  };
 }
 
 export default async function HomePage({

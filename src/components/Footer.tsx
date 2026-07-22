@@ -25,6 +25,7 @@ export function Footer({ locale }: { locale: Locale }) {
 
   const company = [
     { href: lp(locale, "/about"), label: dict.pagesNav.about },
+    { href: lp(locale, "/guides"), label: dict.pagesNav.guides },
     { href: lp(locale, "/contact"), label: dict.pagesNav.contact },
     { href: lp(locale, "/terms"), label: dict.pagesNav.terms },
     { href: lp(locale, "/privacy"), label: dict.pagesNav.privacy },

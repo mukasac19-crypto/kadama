@@ -3,6 +3,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { SITE } from "@/lib/config";
 import { locales, lp } from "@/lib/i18n";
 import { EMIRATE_SLUGS } from "@/lib/content/locations";
+import { NATIONALITY_SLUGS } from "@/lib/content/nationalities";
+import { GUIDE_SLUGS } from "@/lib/content/guides";
 
 // Re-generate hourly so newly published maids show up without a redeploy.
 export const revalidate = 3600;
@@ -15,6 +17,7 @@ const STATIC_PATHS = [
   "/part-time-maids",
   "/nannies",
   "/pricing",
+  "/guides",
   "/about",
   "/how-it-works",
   "/contact",
@@ -51,14 +54,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  // Per-emirate location landing pages (/maids/<slug>).
-  for (const slug of EMIRATE_SLUGS) {
+  // Per-emirate + per-nationality listing landing pages (/maids/<slug>).
+  for (const slug of [...EMIRATE_SLUGS, ...NATIONALITY_SLUGS]) {
     const path = `/maids/${slug}`;
     for (const locale of locales) {
       entries.push({
         url: `${SITE.url}${lp(locale, path)}`,
         changeFrequency: "weekly",
         priority: 0.8,
+        alternates: {
+          languages: Object.fromEntries(
+            locales.map((l) => [l, `${SITE.url}${lp(l, path)}`])
+          ),
+        },
+      });
+    }
+  }
+
+  // Informational guides (/guides/<slug>).
+  for (const slug of GUIDE_SLUGS) {
+    const path = `/guides/${slug}`;
+    for (const locale of locales) {
+      entries.push({
+        url: `${SITE.url}${lp(locale, path)}`,
+        changeFrequency: "monthly",
+        priority: 0.6,
         alternates: {
           languages: Object.fromEntries(
             locales.map((l) => [l, `${SITE.url}${lp(l, path)}`])

@@ -4,8 +4,9 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { fullPhotoUrl, primaryPhoto, signedUrlsForPhotos } from "@/lib/photos";
 import { pageAlternates } from "@/lib/seo";
-import { LocationLanding } from "@/components/LocationLanding";
-import { isEmirateSlug, locationContent } from "@/lib/content/locations";
+import { MaidsFilterLanding } from "@/components/MaidsFilterLanding";
+import { isEmirateSlug, locationContent, emirateDbName } from "@/lib/content/locations";
+import { isNationalitySlug, nationalityContent, nationalityDbName } from "@/lib/content/nationalities";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { getDict, isLocale, labelFor, lp, type Locale } from "@/lib/i18n";
 import { ageFrom, daysSince, formatAed, formatDate } from "@/lib/format";
@@ -31,9 +32,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, code } = await params;
   if (!isLocale(locale)) return {};
-  // /maids/<emirate-slug> is a location landing page, not a profile.
+  // /maids/<emirate-slug> and /maids/<nationality-slug> are listing landing
+  // pages, not profiles.
   if (isEmirateSlug(code)) {
     const c = locationContent(code, locale);
+    return {
+      title: c.metaTitle,
+      description: c.metaDescription,
+      alternates: pageAlternates(locale, `/maids/${code}`),
+      openGraph: { title: c.metaTitle, description: c.metaDescription, url: lp(locale, `/maids/${code}`) },
+    };
+  }
+  if (isNationalitySlug(code)) {
+    const c = nationalityContent(code, locale);
     return {
       title: c.metaTitle,
       description: c.metaDescription,
@@ -67,9 +78,31 @@ export default async function MaidProfilePage({ params }: { params: Params }) {
   if (!isLocale(rawLocale)) notFound();
   const locale = rawLocale as Locale;
 
-  // /maids/<emirate-slug> is a location landing page, not a profile.
+  // /maids/<emirate-slug> and /maids/<nationality-slug> are listing landing
+  // pages, not profiles.
   if (isEmirateSlug(code)) {
-    return <LocationLanding slug={code} locale={locale} />;
+    const c = locationContent(code, locale);
+    return (
+      <MaidsFilterLanding
+        locale={locale}
+        column="emirate"
+        value={emirateDbName(code)}
+        content={c}
+        path={`/maids/${code}`}
+      />
+    );
+  }
+  if (isNationalitySlug(code)) {
+    const c = nationalityContent(code, locale);
+    return (
+      <MaidsFilterLanding
+        locale={locale}
+        column="nationality"
+        value={nationalityDbName(code)}
+        content={c}
+        path={`/maids/${code}`}
+      />
+    );
   }
 
   const dict = getDict(locale);

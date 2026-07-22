@@ -25,6 +25,7 @@ export async function Header({ locale }: { locale: Locale }) {
   const mobileItems: MobileNavItem[] = [
     { href: lp(locale, "/maids"), label: dict.nav.findMaid },
     { href: lp(locale, "/pricing"), label: dict.pagesNav.pricing },
+    { href: lp(locale, "/guides"), label: dict.pagesNav.guides },
     { href: lp(locale, "/how-it-works"), label: dict.pagesNav.how },
     // Hidden for now — agencies page will be re-enabled later:
     // { href: lp(locale, "/list-your-maids"), label: dict.nav.forAgencies },
@@ -64,6 +65,12 @@ export async function Header({ locale }: { locale: Locale }) {
             className="rounded-full px-3 py-2 text-neutral-700 transition hover:bg-neutral-100"
           >
             {dict.pagesNav.pricing}
+          </Link>
+          <Link
+            href={lp(locale, "/guides")}
+            className="rounded-full px-3 py-2 text-neutral-700 transition hover:bg-neutral-100"
+          >
+            {dict.pagesNav.guides}
           </Link>
           <Link
             href={lp(locale, "/how-it-works")}

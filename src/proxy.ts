@@ -15,7 +15,13 @@ function isLocaleExempt(pathname: string): boolean {
     pathname === "/sitemap.xml" ||
     pathname === "/manifest.webmanifest" ||
     pathname.startsWith("/.well-known/") ||
-    // Any path with a file extension (og images, icons, feeds, etc.).
+    // Next.js metadata image routes are extensionless and served from the app
+    // root (not under [locale]), so they must not be locale-prefixed either.
+    pathname.startsWith("/opengraph-image") ||
+    pathname.startsWith("/twitter-image") ||
+    pathname.startsWith("/icon") ||
+    pathname.startsWith("/apple-icon") ||
+    // Any path with a file extension (icons, feeds, etc.).
     pathname.includes(".")
   );
 }
