@@ -8,10 +8,19 @@ export function Footer({ locale }: { locale: Locale }) {
 
   const explore = [
     { href: lp(locale, "/maids"), label: dict.footer.browseMaids },
+    { href: lp(locale, "/pricing"), label: dict.pagesNav.pricing },
     { href: lp(locale, "/how-it-works"), label: dict.pagesNav.how },
     { href: lp(locale, "/login?mode=signup"), label: dict.footer.createAccount },
     // Hidden for now — agencies page will be re-enabled later:
     // { href: lp(locale, "/list-your-maids"), label: dict.footer.listYourMaids },
+  ];
+
+  const services = [
+    { href: lp(locale, "/hire-maid"), label: dict.servicesNav.hireMaid },
+    { href: lp(locale, "/maid-visa"), label: dict.servicesNav.maidVisa },
+    { href: lp(locale, "/part-time-maids"), label: dict.servicesNav.partTime },
+    { href: lp(locale, "/nannies"), label: dict.servicesNav.nannies },
+    { href: lp(locale, "/pricing"), label: dict.pagesNav.pricing },
   ];
 
   const company = [
@@ -23,8 +32,8 @@ export function Footer({ locale }: { locale: Locale }) {
 
   return (
     <footer className="border-t border-neutral-200 bg-white">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
-        <div>
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="sm:col-span-2 lg:col-span-1">
           <p className="flex items-baseline text-xl font-extrabold tracking-tight">
             <span className="text-brand-900">{SITE.name.split(" ")[0]}</span>
             <span className="ms-1 text-brand-600">{SITE.name.split(" ")[1]}</span>
@@ -38,6 +47,18 @@ export function Footer({ locale }: { locale: Locale }) {
           <p className="font-semibold text-neutral-900">{dict.footer.explore}</p>
           <ul className="mt-3 space-y-2 text-neutral-600">
             {explore.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="hover:text-brand-800">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="text-sm">
+          <p className="font-semibold text-neutral-900">{dict.footer.services}</p>
+          <ul className="mt-3 space-y-2 text-neutral-600">
+            {services.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="hover:text-brand-800">
                   {link.label}

@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { fullPhotoUrl, primaryPhoto, signedUrlsForPhotos } from "@/lib/photos";
 import { pageAlternates } from "@/lib/seo";
+import { LocationLanding } from "@/components/LocationLanding";
+import { isEmirateSlug, locationContent } from "@/lib/content/locations";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { getDict, isLocale, labelFor, lp, type Locale } from "@/lib/i18n";
 import { ageFrom, daysSince, formatAed, formatDate } from "@/lib/format";
@@ -29,6 +31,16 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, code } = await params;
   if (!isLocale(locale)) return {};
+  // /maids/<emirate-slug> is a location landing page, not a profile.
+  if (isEmirateSlug(code)) {
+    const c = locationContent(code, locale);
+    return {
+      title: c.metaTitle,
+      description: c.metaDescription,
+      alternates: pageAlternates(locale, `/maids/${code}`),
+      openGraph: { title: c.metaTitle, description: c.metaDescription, url: lp(locale, `/maids/${code}`) },
+    };
+  }
   const dict = getDict(locale);
   const maid = await getMaid(code);
   if (!maid) return { title: dict.profile.notFoundTitle };
@@ -54,6 +66,12 @@ export default async function MaidProfilePage({ params }: { params: Params }) {
   const { locale: rawLocale, code } = await params;
   if (!isLocale(rawLocale)) notFound();
   const locale = rawLocale as Locale;
+
+  // /maids/<emirate-slug> is a location landing page, not a profile.
+  if (isEmirateSlug(code)) {
+    return <LocationLanding slug={code} locale={locale} />;
+  }
+
   const dict = getDict(locale);
 
   const maid = await getMaid(code);

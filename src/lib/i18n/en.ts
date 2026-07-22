@@ -14,6 +14,7 @@ export const en = {
   },
   footer: {
     explore: "Explore",
+    services: "Services",
     company: "Company",
     browseMaids: "Browse maids",
     createAccount: "Create a free account",
@@ -26,9 +27,16 @@ export const en = {
   pagesNav: {
     about: "About us",
     how: "How it works",
+    pricing: "Pricing",
     contact: "Contact us",
     terms: "Terms of Service",
     privacy: "Privacy Policy",
+  },
+  servicesNav: {
+    hireMaid: "Hire a full-time maid",
+    maidVisa: "Maid visa",
+    partTime: "Part-time maids",
+    nannies: "Hire a nanny",
   },
   home: {
     heroTitle: "Hire a trusted maid or nanny in the UAE — ",

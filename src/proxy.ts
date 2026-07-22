@@ -8,7 +8,15 @@ function isLocaleExempt(pathname: string): boolean {
   return (
     pathname.startsWith("/api") ||
     pathname.startsWith("/auth") ||
-    pathname.startsWith("/admin")
+    pathname.startsWith("/admin") ||
+    // SEO / well-known machine routes must be served as-is, never locale-prefixed.
+    // (Googlebot requests /robots.txt and /sitemap.xml at the domain root.)
+    pathname === "/robots.txt" ||
+    pathname === "/sitemap.xml" ||
+    pathname === "/manifest.webmanifest" ||
+    pathname.startsWith("/.well-known/") ||
+    // Any path with a file extension (og images, icons, feeds, etc.).
+    pathname.includes(".")
   );
 }
 

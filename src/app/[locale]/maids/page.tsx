@@ -6,7 +6,8 @@ import { photoUrlsFor } from "@/lib/photos";
 import { MaidCard } from "@/components/MaidCard";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { EMIRATES, NATIONALITIES, SKILLS } from "@/lib/config";
-import { getDict, isLocale, lp } from "@/lib/i18n";
+import { EMIRATE_SLUGS, emirateDbName } from "@/lib/content/locations";
+import { getDict, isLocale, labelFor, lp } from "@/lib/i18n";
 import type { Maid } from "@/lib/types";
 
 type Search = { [key: string]: string | string[] | undefined };
@@ -79,6 +80,22 @@ export default async function MaidsPage({
     <div className="mx-auto max-w-6xl px-4 py-10">
       <h1 className="text-3xl font-bold">{dict.browse.title}</h1>
       <p className="mt-1 text-sm text-neutral-500">{dict.browse.subtitle(maids.length)}</p>
+
+      {/* Browse by city — internal links to the location landing pages */}
+      <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
+        <span className="text-neutral-500">
+          {locale === "ar" ? "تصفّح حسب المدينة:" : "Browse by city:"}
+        </span>
+        {EMIRATE_SLUGS.map((slug) => (
+          <a
+            key={slug}
+            href={lp(locale, `/maids/${slug}`)}
+            className="rounded-full border border-neutral-200 bg-white px-3 py-1 font-medium text-brand-800 transition hover:border-brand-600 hover:bg-brand-50"
+          >
+            {labelFor(dict.values.emirates, emirateDbName(slug))}
+          </a>
+        ))}
+      </div>
 
       {/* Filters — plain GET form, works without JavaScript */}
       <form

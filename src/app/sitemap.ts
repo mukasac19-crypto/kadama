@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { SITE } from "@/lib/config";
 import { locales, lp } from "@/lib/i18n";
+import { EMIRATE_SLUGS } from "@/lib/content/locations";
 
 // Re-generate hourly so newly published maids show up without a redeploy.
 export const revalidate = 3600;
@@ -9,6 +10,11 @@ export const revalidate = 3600;
 const STATIC_PATHS = [
   "/",
   "/maids",
+  "/hire-maid",
+  "/maid-visa",
+  "/part-time-maids",
+  "/nannies",
+  "/pricing",
   "/about",
   "/how-it-works",
   "/contact",
@@ -16,6 +22,15 @@ const STATIC_PATHS = [
   "/terms",
   "/privacy",
 ];
+
+/** High-value commercial pages get a higher sitemap priority. */
+const PRIORITY_PATHS = new Set([
+  "/pricing",
+  "/hire-maid",
+  "/maid-visa",
+  "/part-time-maids",
+  "/nannies",
+]);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
@@ -25,7 +40,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       entries.push({
         url: `${SITE.url}${lp(locale, path)}`,
         changeFrequency: path === "/" || path === "/maids" ? "daily" : "monthly",
-        priority: path === "/" ? 1 : path === "/maids" ? 0.9 : 0.5,
+        priority:
+          path === "/" ? 1 : path === "/maids" ? 0.9 : PRIORITY_PATHS.has(path) ? 0.8 : 0.5,
+        alternates: {
+          languages: Object.fromEntries(
+            locales.map((l) => [l, `${SITE.url}${lp(l, path)}`])
+          ),
+        },
+      });
+    }
+  }
+
+  // Per-emirate location landing pages (/maids/<slug>).
+  for (const slug of EMIRATE_SLUGS) {
+    const path = `/maids/${slug}`;
+    for (const locale of locales) {
+      entries.push({
+        url: `${SITE.url}${lp(locale, path)}`,
+        changeFrequency: "weekly",
+        priority: 0.8,
         alternates: {
           languages: Object.fromEntries(
             locales.map((l) => [l, `${SITE.url}${lp(l, path)}`])

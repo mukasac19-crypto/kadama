@@ -16,6 +16,7 @@ export const ar: Dictionary = {
   },
   footer: {
     explore: "استكشف",
+    services: "خدماتنا",
     company: "الشركة",
     browseMaids: "تصفّح العاملات",
     createAccount: "أنشئ حساباً مجانياً",
@@ -28,9 +29,16 @@ export const ar: Dictionary = {
   pagesNav: {
     about: "من نحن",
     how: "كيف تعمل المنصة",
+    pricing: "الأسعار",
     contact: "اتصل بنا",
     terms: "شروط الاستخدام",
     privacy: "سياسة الخصوصية",
+  },
+  servicesNav: {
+    hireMaid: "استقدام خادمة بدوام كامل",
+    maidVisa: "تأشيرة خادمة",
+    partTime: "خادمات بالساعة",
+    nannies: "استقدام مربية",
   },
   home: {
     heroTitle: "وظّف عاملة منزلية أو مربية موثوقة في الإمارات — ",
