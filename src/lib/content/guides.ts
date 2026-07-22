@@ -77,14 +77,14 @@ const EN: GuidesBundle = {
           heading: "What's included",
           body: [
             "The package covers the full 2-year residency visa, the Emirates ID, the medical fitness test, health insurance, WPS payroll setup, and all government fees. End-of-service dues and visa renewals are handled too.",
-            "Because everything is bundled, there are no surprise agency or setup charges on top — you pay for the package you choose and nothing else. There's also no deposit and no cancellation fee.",
+            "Because everything is bundled, there are no surprise agency or setup charges on top — you pay for the package you choose and nothing else.",
           ],
         },
       ],
       faqs: [
         { q: "How much is a maid visa in Dubai?", a: "A 2-year maid visa with Maid Link is AED 8,500 + AED 160/month, or AED 10,960 as a one-off payment. Both include the visa, Emirates ID, medicals, insurance and government fees. Prices are ex-VAT." },
         { q: "Is the maid visa cost the same across the UAE?", a: "Our package pricing is the same whether you're in Dubai, Abu Dhabi, Sharjah or elsewhere in the UAE." },
-        { q: "Are there any hidden fees?", a: "No. There's no deposit, no cancellation fee, and no separate setup charge — just the package price plus 5% VAT." },
+        { q: "Are there any hidden fees?", a: "No. There are no separate agency or setup charges — just the package price plus 5% VAT." },
       ],
     },
     "how-to-sponsor-a-maid-visa": {
@@ -212,14 +212,14 @@ const AR: GuidesBundle = {
           heading: "ماذا يشمل السعر",
           body: [
             "تغطّي الباقة تأشيرة الإقامة الكاملة لسنتين، والهوية الإماراتية، والفحص الطبي، والتأمين الصحي، وإعداد نظام حماية الأجور، وجميع الرسوم الحكومية. كما تُتولّى مستحقات نهاية الخدمة وتجديد التأشيرة.",
-            "ولأن كل شيء مجمّع في الباقة، لا توجد رسوم وكالة أو تأسيس مفاجئة فوقها — تدفع مقابل الباقة التي تختارها فقط. كما لا يوجد تأمين ولا رسوم إلغاء.",
+            "ولأن كل شيء مجمّع في الباقة، لا توجد رسوم وكالة أو تأسيس مفاجئة فوقها — تدفع مقابل الباقة التي تختارها فقط.",
           ],
         },
       ],
       faqs: [
         { q: "كم تكلفة تأشيرة الخادمة في دبي؟", a: "تأشيرة الخادمة لسنتين مع Maid Link هي 8,500 درهم + 160 درهماً شهرياً، أو 10,960 درهماً دفعة واحدة. كلاهما يشمل التأشيرة والهوية والفحوصات والتأمين والرسوم الحكومية. الأسعار غير شاملة الضريبة." },
         { q: "هل تكلفة تأشيرة الخادمة واحدة في كل الإمارات؟", a: "أسعار باقاتنا واحدة سواء كنت في دبي أو أبوظبي أو الشارقة أو غيرها من الإمارات." },
-        { q: "هل هناك رسوم خفية؟", a: "لا. لا يوجد تأمين ولا رسوم إلغاء ولا رسوم تأسيس منفصلة — فقط سعر الباقة بالإضافة إلى ضريبة 5%." },
+        { q: "هل هناك رسوم خفية؟", a: "لا. لا توجد رسوم وكالة أو تأسيس منفصلة — فقط سعر الباقة بالإضافة إلى ضريبة 5%." },
       ],
     },
     "how-to-sponsor-a-maid-visa": {

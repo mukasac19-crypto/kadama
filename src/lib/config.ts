@@ -1,8 +1,8 @@
 export const SITE = {
   name: "Maid Link",
-  tagline: "Hire trusted maids & nannies across the UAE",
+  tagline: "Hire maids, nannies & maid visas across the UAE",
   description:
-    "Maid Link connects UAE families with verified maids, nannies and caregivers from licensed agencies. Browse profiles, chat on WhatsApp, and hire with confidence.",
+    "Maid Link is a MOHRE-licensed team helping UAE families hire full-time maids and nannies, sponsor maid visas, and book part-time help — with transparent prices, a money-back guarantee and real support on WhatsApp.",
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "971500000000",
   email: "hello@maidlink.ae", // update when your real inbox is ready
   location: "Dubai, United Arab Emirates",

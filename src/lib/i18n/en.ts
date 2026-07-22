@@ -2,7 +2,7 @@ export const en = {
   meta: {
     title: "Maid Link — Hire Maids & Nannies in Dubai & the UAE",
     description:
-      "Maid Link connects UAE families with verified maids, nannies and caregivers from licensed agencies. Browse profiles, chat on WhatsApp, and hire with confidence.",
+      "Maid Link is a MOHRE-licensed team helping UAE families hire full-time maids and nannies, sponsor maid visas, and book part-time help — transparent prices, money-back guarantee, real support on WhatsApp.",
   },
   nav: {
     findMaid: "Find a maid",
@@ -40,17 +40,19 @@ export const en = {
     nannies: "Hire a nanny",
   },
   home: {
-    heroTitle: "Hire a trusted maid or nanny in the UAE — ",
+    heroTitle: "Hire a maid, nanny or maid visa in the UAE — ",
     heroHighlight: "without the hassle",
     heroText:
-      "Maid Link brings verified helpers from licensed agencies into one place. Browse real profiles, chat with us on WhatsApp, and hire in days — not weeks.",
+      "Maid Link is a MOHRE-licensed team. Hire a full-time maid or nanny, sponsor a maid visa, or book part-time help — all over WhatsApp, with transparent prices and a money-back guarantee.",
     anyNationality: "Any nationality",
     anyEmirate: "Any emirate",
     searchBtn: "Search maids",
     preferAsk: "Prefer to just ask?",
     tellUs: "Tell us what you need",
+    servicesTitle: "What we can do for you",
+    servicesSub: "One MOHRE-licensed team for every home-help need.",
     recentTitle: "Recently added helpers",
-    recentSub: "Fresh profiles, availability re-confirmed with their agencies.",
+    recentSub: "Fresh profiles, availability re-confirmed regularly.",
     viewAll: "View all →",
     emptyText: "New profiles are being added — tell us what you need and we'll match you.",
     chatWithUs: "Chat with us on WhatsApp",
@@ -58,7 +60,7 @@ export const en = {
   browse: {
     title: "Find your helper",
     subtitle: (count: number) =>
-      `${count} verified ${count === 1 ? "profile" : "profiles"} — availability re-confirmed with agencies regularly.`,
+      `${count} verified ${count === 1 ? "profile" : "profiles"} — availability re-confirmed regularly.`,
     nationality: "Nationality",
     emirate: "Emirate",
     visaStatus: "Visa status",
@@ -69,7 +71,7 @@ export const en = {
     clear: "Clear",
     noMatchTitle: "No matches for these filters — yet",
     noMatchText:
-      "Tell us exactly what you're looking for on WhatsApp and we'll check with our agencies — most requests are matched within 24 hours.",
+      "Tell us exactly what you're looking for on WhatsApp and we'll check our latest availability — most requests are matched within 24 hours.",
     askWhatsapp: "Ask us on WhatsApp",
   },
   profile: {
@@ -187,27 +189,27 @@ export const en = {
   aboutPage: {
     title: "About Maid Link",
     intro:
-      "We started Maid Link to make finding trusted home help in the UAE simple, transparent and fair — for families and for the women who work with them.",
+      "Maid Link is a MOHRE-licensed home-help provider on a mission to make hiring a maid or nanny in the UAE simple, transparent and fair — for families and for the women who work with them.",
     points: [
       {
-        title: "One place, many agencies",
-        text: "We bring candidates from licensed recruitment agencies across the UAE into a single, easy-to-search catalog — plus our own vetted pool.",
+        title: "Licensed and legal",
+        text: "Maid Link is licensed by the UAE Ministry of Human Resources & Emiratisation (MOHRE), so every hire and every visa is fully legal and compliant.",
       },
       {
-        title: "Verified and fresh",
-        text: "Every profile is documented before it goes live, and availability is re-confirmed with agencies regularly — you can see when on every profile.",
+        title: "One team, everything covered",
+        text: "Hire a full-time maid or nanny, sponsor a maid visa, or book part-time help — salary, visa, medicals and government fees are all handled by us.",
       },
       {
-        title: "WhatsApp-first",
-        text: "No call centers and no forms. A real person answers on WhatsApp and walks you through shortlisting, interviews and hiring.",
+        title: "Transparent pricing",
+        text: "Clear prices with no hidden agency fees, a 7-day money-back guarantee, and free replacements if the fit isn't right.",
       },
       {
-        title: "Respect for helpers",
-        text: "Photos are only visible to signed-in members, and placements go through licensed channels — protecting the privacy and rights of every candidate.",
+        title: "WhatsApp-first, respect for helpers",
+        text: "A real person answers on WhatsApp and guides you through hiring — and we protect the privacy and rights of every helper we place.",
       },
     ],
     compliance:
-      "Maid Link works with licensed UAE recruitment agencies, and all placements follow MoHRE regulations.",
+      "Maid Link is licensed by the UAE Ministry of Human Resources & Emiratisation (MoHRE), and all hires and visas follow MoHRE regulations.",
     ctaTitle: "Ready to find your helper?",
     ctaBrowse: "Browse maids",
     ctaWhatsapp: "Ask us on WhatsApp",
@@ -231,30 +233,30 @@ export const en = {
       },
       {
         title: "Interview",
-        text: "We confirm availability with the agency and arrange a phone, video or in-person interview — usually within 24 hours.",
+        text: "We confirm availability and arrange a phone, video or in-person interview — usually within 24 hours.",
       },
       {
         title: "Hire with confidence",
-        text: "Contracts, visa and paperwork are completed through the licensed agency under MoHRE rules. You welcome your helper home.",
+        text: "Contracts, visa and paperwork are completed by our MOHRE-licensed team, with a money-back guarantee. You welcome your helper home.",
       },
     ],
     faqTitle: "Common questions",
     faqs: [
       {
-        q: "Is Maid Link free for families?",
-        a: "Browsing, signing up and contacting us are completely free. Hiring costs (agency fees, visa costs, salary) depend on the candidate and the agency — we'll explain everything up front on WhatsApp.",
+        q: "Is Maid Link free to browse?",
+        a: "Browsing, signing up and contacting us are completely free. Hiring is priced transparently — full-time from AED 2,980/mo, maid visa from AED 8,500, part-time from AED 35/hr (ex-VAT) — and we explain everything up front on WhatsApp.",
       },
       {
         q: "How fast can I hire?",
-        a: "Candidates inside the UAE with transferable visas can often start within days. Candidates outside the country typically take a few weeks for visa processing.",
+        a: "Helpers inside the UAE with transferable visas can often start within days. Those outside the country typically take a few weeks for visa processing.",
       },
       {
         q: "Are the maids verified?",
-        a: "Yes — profiles are documented and screened before going live, and we re-confirm availability with agencies regularly.",
+        a: "Yes — every profile is documented and screened before going live, and availability is re-confirmed regularly.",
       },
       {
         q: "Is this legal?",
-        a: "Yes. Every placement is completed through licensed UAE recruitment channels in line with MoHRE regulations.",
+        a: "Yes. Maid Link is licensed by the UAE Ministry of Human Resources & Emiratisation (MoHRE), so every hire and visa is fully legal and compliant.",
       },
     ],
     ctaBtn: "Start browsing",

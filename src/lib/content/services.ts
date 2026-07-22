@@ -148,7 +148,7 @@ const CONTENT: Record<ServiceSlug, Bundle> = {
     en: {
       metaTitle: "Maid Visa in the UAE — 2-Year Sponsorship from AED 8,500",
       metaDescription:
-        "Sponsor your maid's 2-year UAE residency visa the easy way. Emirates ID, medicals, insurance, WPS payroll and government fees included from AED 8,500. MOHRE-licensed, no deposit.",
+        "Sponsor your maid's 2-year UAE residency visa the easy way. Emirates ID, medicals, insurance, WPS payroll and government fees included from AED 8,500. MOHRE-licensed and fully compliant.",
       eyebrow: LICENSED_EN,
       h1: "Maid visa in the UAE, made simple",
       intro:
@@ -177,7 +177,7 @@ const CONTENT: Record<ServiceSlug, Bundle> = {
         { q: "How much does a maid visa cost in the UAE?", a: "A 2-year maid visa is AED 8,500 plus AED 160/month, or a single one-off payment of AED 10,960. This covers the visa, Emirates ID, medicals, insurance, WPS payroll and end-of-service dues. Prices are ex-VAT." },
         { q: "Can you sponsor a maid who is already in the UAE?", a: "Yes. Whether she's on a visit visa, a cancelled visa or transferring from another sponsor, message us and we'll confirm what's possible." },
         { q: "Is this legal / MOHRE-compliant?", a: "Yes. Maid Link is licensed by the UAE Ministry of Human Resources & Emiratisation (MOHRE), so the sponsorship is fully legal." },
-        { q: "Do I pay a deposit?", a: "No deposit and no cancellation fee. You pay only for the visa package you choose." },
+        { q: "Are there any hidden fees?", a: "No — you pay only for the visa package you choose, plus 5% VAT. There are no separate agency or setup charges." },
       ],
       closingTitle: "Ready to sponsor a visa?",
       closingText: "Message us on WhatsApp with your maid's details and we'll get started — a real person replies within minutes.",
@@ -191,7 +191,7 @@ const CONTENT: Record<ServiceSlug, Bundle> = {
     ar: {
       metaTitle: "تأشيرة خادمة في الإمارات — كفالة سنتين من 8,500 درهم",
       metaDescription:
-        "اكفل تأشيرة إقامة خادمتك لسنتين بسهولة. الهوية الإماراتية والفحوصات والتأمين ونظام حماية الأجور والرسوم الحكومية مشمولة من 8,500 درهم. مرخّصون، بدون تأمين.",
+        "اكفل تأشيرة إقامة خادمتك لسنتين بسهولة. الهوية الإماراتية والفحوصات والتأمين ونظام حماية الأجور والرسوم الحكومية مشمولة من 8,500 درهم. مرخّصون ومتوافقون بالكامل.",
       eyebrow: LICENSED_AR,
       h1: "تأشيرة خادمة في الإمارات بكل سهولة",
       intro:
@@ -220,7 +220,7 @@ const CONTENT: Record<ServiceSlug, Bundle> = {
         { q: "كم تكلفة تأشيرة الخادمة في الإمارات؟", a: "تأشيرة الخادمة لسنتين تكلّف 8,500 درهم بالإضافة إلى 160 درهم شهرياً، أو دفعة واحدة 10,960 درهم. يشمل ذلك التأشيرة والهوية والفحوصات والتأمين وحماية الأجور ومستحقات نهاية الخدمة. الأسعار غير شاملة الضريبة." },
         { q: "هل يمكنكم كفالة خادمة موجودة في الإمارات؟", a: "نعم. سواء كانت على تأشيرة زيارة أو تأشيرة ملغاة أو منتقلة من كفيل آخر، راسلنا ونؤكد ما هو ممكن." },
         { q: "هل هذا قانوني ومتوافق مع الموارد البشرية؟", a: "نعم. Maid Link مرخّصة من وزارة الموارد البشرية والتوطين، لذا فالكفالة قانونية بالكامل." },
-        { q: "هل أدفع تأميناً؟", a: "بدون تأمين وبدون رسوم إلغاء. تدفع فقط مقابل باقة التأشيرة التي تختارها." },
+        { q: "هل هناك رسوم خفية؟", a: "لا — تدفع فقط مقابل باقة التأشيرة التي تختارها، بالإضافة إلى ضريبة 5%. لا توجد رسوم وكالة أو تأسيس منفصلة." },
       ],
       closingTitle: "جاهز لكفالة تأشيرة؟",
       closingText: "راسلنا على واتساب ببيانات خادمتك ونبدأ — يرد عليك شخص حقيقي خلال دقائق.",

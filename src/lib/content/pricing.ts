@@ -46,10 +46,10 @@ export type PricingContent = {
 const en: PricingContent = {
   metaTitle: "Maid & Nanny Prices in the UAE — Full-Time, Visa & Part-Time",
   metaDescription:
-    "Transparent maid and nanny pricing in Dubai & the UAE. Full-time maids from AED 2,980/mo, maid visa from AED 8,500, part-time from AED 35/hr. MOHRE-licensed, no deposit, money-back guarantee.",
+    "Transparent maid and nanny pricing in Dubai & the UAE. Full-time maids from AED 2,980/mo, maid visa from AED 8,500, part-time from AED 35/hr. MOHRE-licensed, money-back guarantee, free replacements.",
   h1: "Simple, transparent pricing",
   intro:
-    "Hire a full-time maid, sponsor a maid visa, or book part-time help — all through one MOHRE-licensed team. No hidden fees, no deposit, and a money-back guarantee on full-time placements.",
+    "Hire a full-time maid, sponsor a maid visa, or book part-time help — all through one MOHRE-licensed team. No hidden agency fees, a money-back guarantee, and free replacements on full-time placements.",
   licensedBadge: "Licensed by the UAE Ministry of Human Resources & Emiratisation (MOHRE)",
   plans: [
     {
@@ -106,10 +106,10 @@ const en: PricingContent = {
     },
   ],
   guarantees: [
-    "No deposit",
-    "No cancellation fee",
     "7-day money-back guarantee",
     "Free replacements",
+    "No hidden agency fees",
+    "MOHRE-licensed",
   ],
   vatNote: "All prices are exclusive of 5% VAT.",
   faqTitle: "Pricing questions",
@@ -119,8 +119,8 @@ const en: PricingContent = {
       a: "The monthly price covers the maid's salary, her 2-year residency visa, Emirates ID, medical tests, insurance and all government fees. There are no separate agency or setup charges.",
     },
     {
-      q: "Do I pay a deposit?",
-      a: "No. We don't charge a deposit or a cancellation fee. Full-time placements come with a 7-day money-back guarantee and free replacements if the maid isn't the right fit.",
+      q: "Are there any hidden fees?",
+      a: "The price you see is what you pay — there are no hidden agency or setup charges, just the package price plus 5% VAT. Full-time placements also come with a 7-day money-back guarantee and free replacements if the maid isn't the right fit.",
     },
     {
       q: "How much is a maid visa on its own?",
@@ -145,10 +145,10 @@ const en: PricingContent = {
 const ar: PricingContent = {
   metaTitle: "أسعار الخادمات والمربيات في الإمارات — دوام كامل، تأشيرة، بالساعة",
   metaDescription:
-    "أسعار واضحة للخادمات والمربيات في دبي والإمارات. خادمة بدوام كامل من 2,980 درهم شهرياً، تأشيرة خادمة من 8,500 درهم، بالساعة من 35 درهم. مرخّصون من وزارة الموارد البشرية، بدون تأمين ومع ضمان استرداد.",
+    "أسعار واضحة للخادمات والمربيات في دبي والإمارات. خادمة بدوام كامل من 2,980 درهم شهرياً، تأشيرة خادمة من 8,500 درهم، بالساعة من 35 درهم. مرخّصون من وزارة الموارد البشرية، مع ضمان استرداد واستبدال مجاني.",
   h1: "أسعار بسيطة وشفافة",
   intro:
-    "استقدم خادمة بدوام كامل، أو استخرج تأشيرة خادمة، أو احجز مساعدة بالساعة — كل ذلك عبر فريق واحد مرخّص من وزارة الموارد البشرية والتوطين. بدون رسوم خفية، بدون تأمين، ومع ضمان استرداد الأموال للتعيينات بدوام كامل.",
+    "استقدم خادمة بدوام كامل، أو استخرج تأشيرة خادمة، أو احجز مساعدة بالساعة — كل ذلك عبر فريق واحد مرخّص من وزارة الموارد البشرية والتوطين. بدون رسوم وكالة خفية، ومع ضمان استرداد الأموال واستبدال مجاني للتعيينات بدوام كامل.",
   licensedBadge: "مرخّصون من وزارة الموارد البشرية والتوطين في دولة الإمارات (MOHRE)",
   plans: [
     {
@@ -202,10 +202,10 @@ const ar: PricingContent = {
     },
   ],
   guarantees: [
-    "بدون تأمين",
-    "بدون رسوم إلغاء",
     "ضمان استرداد خلال 7 أيام",
     "استبدال مجاني",
+    "بدون رسوم وكالة خفية",
+    "مرخّصون من الموارد البشرية",
   ],
   vatNote: "جميع الأسعار غير شاملة ضريبة القيمة المضافة 5%.",
   faqTitle: "أسئلة حول الأسعار",
@@ -215,8 +215,8 @@ const ar: PricingContent = {
       a: "يغطّي السعر الشهري راتب الخادمة وتأشيرة الإقامة لسنتين والهوية الإماراتية والفحوصات الطبية والتأمين وجميع الرسوم الحكومية. لا توجد رسوم وكالة أو تأسيس منفصلة.",
     },
     {
-      q: "هل أدفع تأميناً؟",
-      a: "لا. لا نفرض تأميناً أو رسوم إلغاء. التعيينات بدوام كامل تشمل ضمان استرداد الأموال خلال 7 أيام واستبدالاً مجانياً إذا لم تكن الخادمة مناسبة.",
+      q: "هل هناك رسوم خفية؟",
+      a: "السعر الذي تراه هو ما تدفعه — لا توجد رسوم وكالة أو تأسيس إضافية، فقط سعر الباقة بالإضافة إلى ضريبة 5%. كما تشمل التعيينات بدوام كامل ضمان استرداد الأموال خلال 7 أيام واستبدالاً مجانياً إذا لم تكن الخادمة مناسبة.",
     },
     {
       q: "كم تكلفة تأشيرة الخادمة بمفردها؟",

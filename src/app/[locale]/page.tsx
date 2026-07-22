@@ -120,6 +120,31 @@ export default async function HomePage({
         />
       </section>
 
+      {/* Services */}
+      <section className="mx-auto max-w-6xl px-4 pt-14">
+        <h2 className="text-2xl font-bold">{dict.home.servicesTitle}</h2>
+        <p className="mt-1 text-sm text-neutral-500">{dict.home.servicesSub}</p>
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { href: "/hire-maid", label: dict.servicesNav.hireMaid, price: locale === "ar" ? "من 2,980 درهم/شهر" : "From AED 2,980/mo" },
+            { href: "/maid-visa", label: dict.servicesNav.maidVisa, price: locale === "ar" ? "من 8,500 درهم" : "From AED 8,500" },
+            { href: "/part-time-maids", label: dict.servicesNav.partTime, price: locale === "ar" ? "من 35 درهم/ساعة" : "From AED 35/hr" },
+            { href: "/nannies", label: dict.servicesNav.nannies, price: locale === "ar" ? "من 2,980 درهم/شهر" : "From AED 2,980/mo" },
+          ].map((s) => (
+            <Link
+              key={s.href}
+              href={lp(locale, s.href)}
+              className="group flex flex-col justify-between rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-600 hover:shadow-md"
+            >
+              <span className="text-base font-semibold text-neutral-900 group-hover:text-brand-800">
+                {s.label}
+              </span>
+              <span className="mt-3 text-sm font-medium text-brand-700">{s.price} →</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* Latest maids */}
       <section className="mx-auto max-w-6xl px-4 py-14">
         <div className="flex items-end justify-between">
